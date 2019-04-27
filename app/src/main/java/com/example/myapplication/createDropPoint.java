@@ -61,7 +61,6 @@ public class createDropPoint extends Fragment {
     private void getRepoList() {
         // Next, we create a new JsonArrayRequest. This will use Volley to make a HTTP request
         // that expects a JSON Array Response.
-        // To fully understand this, I'd recommend reading the office docs: https://developer.android.com/training/volley/index.html
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, this.baseUrl,
                 new Response.Listener<JSONArray>() {
                     @Override

@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                createDropPoint createdroppoint = new createDropPoint();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.mainLayout, createdroppoint).commit();
+
             }
+
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

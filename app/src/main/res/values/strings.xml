@@ -16,6 +16,11 @@
     <string name="menu_map">Map</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="CCP_info">Recycle Drop Point: Create</string>
+    <string name="CCP_name">Enter the name of the Drop Point</string>
+    <string name="CCP_recycleType">Add Recycle Type</string>
+    <string name="CCP_img">Add an Photo:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -58,7 +58,7 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkUserLocationPermission();
         }
-        View v = inflater.inflate(R.layout.fragment_contact_us, container, false);
+        View v = inflater.inflate(R.layout.fragment_droppoint, container, false);
         return v;
 
     }
