@@ -33,7 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactUsFragment extends Fragment implements OnMapReadyCallback,
+public class droppointFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -46,7 +46,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback,
     private Marker currentUserLocationMarker;
     private static final int Request__User_Location_Code = 99;
 
-    public ContactUsFragment() {
+    public droppointFragment() {
         // Required empty public constructor
     }
 
