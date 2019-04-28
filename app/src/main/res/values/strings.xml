@@ -20,7 +20,11 @@
     <string name="CCP_name">Enter the name of the Drop Point</string>
     <string name="CCP_recycleType">Add Recycle Type</string>
     <string name="CCP_img">Add an Photo:</string>
+    <string name="CCP_submit">Submit</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Login_info">Login:</string>
+    <string name="Login_email">Email</string>
+    <string name="Login_password">Password</string>
+    <string name="Login_button">Login</string>
 </resources>
