@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -28,6 +29,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -134,6 +137,11 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
             currentUserLocationMarker.remove();
         }
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        SharedPreferences pref = getActivity().getSharedPreferences("UserToken", MODE_PRIVATE);
+        pref.edit()
+                .putFloat("Latitude", ((float) location.getLatitude()))
+                .putFloat("Longitude", ((float) location.getLongitude()))
+                .commit();
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("User Current Location");
