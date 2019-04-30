@@ -7,8 +7,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_home">List</string>
+    <string name="menu_gallery">Create</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
@@ -22,9 +22,9 @@
     <string name="CCP_img">Add an Photo:</string>
     <string name="CCP_submit">Submit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="Login_info">Login:</string>
     <string name="Login_email">Email</string>
     <string name="Login_password">Password</string>
     <string name="Login_button">Login</string>
+
 </resources>

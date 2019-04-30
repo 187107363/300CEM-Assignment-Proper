@@ -3,19 +3,33 @@ package com.example.myapplication;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,6 +44,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -41,8 +63,11 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-
+    String baseUrl = "https://backend300cem.herokuapp.com";
+    String getDropPoint = "/droppoint/all";
+    RequestQueue requestQueue;
     GoogleMap map;
+
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private Location lastLocation;
@@ -53,7 +78,6 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +86,10 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
             checkUserLocationPermission();
         }
         View v = inflater.inflate(R.layout.fragment_droppoint, container, false);
+
+        requestQueue = Volley.newRequestQueue(v.getContext());
+        getRESTfulAPI();
+
         return v;
 
     }
@@ -69,6 +97,7 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
     }
@@ -130,6 +159,70 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
         googleApiClient.connect();
     }
 
+
+    private void getRESTfulAPI() {
+        JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, baseUrl + getDropPoint,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            // Check the length of our response
+                            if (response.length() > 0) {
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        JSONObject jsonObj = response.getJSONObject(i);
+                                        Log.d("location", jsonObj.toString());
+                                        double longitude = (double) jsonObj.getJSONObject("location").get("longitude");
+                                        double latitude = (double) jsonObj.getJSONObject("location").get("latitude");
+                                        String name = jsonObj.get("name").toString();
+
+                                        MarkerOptions markerOptions = new MarkerOptions();
+                                        LatLng latLng = new LatLng(latitude, longitude);
+                                        markerOptions.position(latLng);
+                                        markerOptions.title(name );
+
+//                                        byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+//                                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+                                        currentUserLocationMarker = map.addMarker(markerOptions);
+                                    } catch (JSONException e) {
+                                        // If there is an error then output this to the logs.
+                                        Log.e("Volley", "Invalid JSON Object.");
+                                    }
+                                }
+                            } else {
+                                Snackbar.make(getView(), "Type JSON Not found.", Snackbar.LENGTH_SHORT)
+                                        .setAction("Action", null).show();
+                            }
+                        } catch (Throwable t) {
+                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error != null) {
+                            error.printStackTrace();
+                        }
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                SharedPreferences pref = getActivity().getSharedPreferences("UserToken", MODE_PRIVATE);
+                String token = pref.getString("Token", null);
+                params.put("x-access-token", token);
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -178,4 +271,5 @@ public class droppointFragment extends Fragment implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 }

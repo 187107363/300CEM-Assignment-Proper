@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">我的應用</string>
+    <string name="navigation_drawer_open">打開導航</string>
+    <string name="navigation_drawer_close">關閉導航</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">標題</string>
+    <string name="action_settings">設置</string>
+
+    <string name="menu_home">名單</string>
+    <string name="menu_gallery">創建</string>
+    <string name="menu_slideshow">幻燈片</string>
+    <string name="menu_tools">工具</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_send">發送</string>
+    <string name="menu_map">地圖</string>
+    <string name="title_activity_maps">地圖</string>
+
+    <string name="CCP_info">回收丟棄點：創建</string>
+    <string name="CCP_name">輸入丟棄點的名稱</string>
+    <string name="CCP_recycleType">添加回收類型</string>
+    <string name="CCP_img">添加照片:</string>
+    <string name="CCP_submit">提交</string>
+
+    <string name="Login_info">登錄:</string>
+    <string name="Login_email">電子郵件</string>
+    <string name="Login_password">密碼</string>
+    <string name="Login_button">登錄</string>
+
+
+</resources>

@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String user;
@@ -27,16 +29,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDropPoint createdroppoint = new createDropPoint();
-                FragmentManager manager = getSupportFragmentManager();
-                manager.beginTransaction().replace(R.id.mainLayout, createdroppoint).commit();
-            }
-
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -94,16 +86,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (user.length() > 0){
-            if (id == R.id.nav_home) {
-                // Handle the camera action
-
-            } else if (id == R.id.nav_gallery) {
-
-            } else if (id == R.id.nav_slideshow) {
-
+            if (id == R.id.nav_droppoint_list) {
+                listView_dropPoint listViewDropPoint = new listView_dropPoint();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.mainLayout, listViewDropPoint).commit();
+            } else if (id == R.id.nav_droppoint_create) {
+                createDropPoint createdroppoint = new createDropPoint();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.mainLayout, createdroppoint).commit();
             } else if (id == R.id.nav_tools) {
-
-            } else if (id == R.id.nav_share) {
 
             } else if (id == R.id.nav_droppoint) {
                 droppointFragment cf = new droppointFragment();
@@ -117,4 +108,11 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public String getLocale() {
+        Locale locale = Locale.getDefault();
+        String lang = locale.getLanguage() + "-" + locale.getCountry();
+        return lang;
+    }
+
 }
